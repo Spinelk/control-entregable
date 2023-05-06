@@ -67,55 +67,58 @@
         function crearCarta() {
 
 
+
+
+
             $.get("https://dog.ceo/api/breeds/image/random", function (perro) {
                 urlImgPerro = perro.message;
 
-                console.log(urlImgPerro)
 
                 const url = urlImgPerro;
                 const regex = /breeds\/(.+?)\//;
                 const match = url.match(regex);
 
                 const raza = match[1];
-                console.log(raza);
-
 
 
                 var id = Math.floor(Math.random() * (826 - 1) + 1);
                 $.get("https://randomuser.me/api/", function (usuario) {
 
-                    var carta = "";
-                    carta += '<div class="col">'
-                    carta += '<div  class="card text-bg-dark mb-3 rounded-4 shadow-lg border-0" style="width: 40rem;">'
-                    carta += '<div class="card-body px-4 pt-4 pb-1">'
-                    carta += '<div class="px-2 pb-4">'
-                    carta += '<div class="d-flex gap-3 pb-2">'
-                    carta += '<div>'
-                    carta += '<img src="' + usuario.results[0].picture.thumbnail + '" class="rounded-circle shadow-lg ratio ratio-1x1"'
-                    carta += 'Style="width: 3rem;" alt="Perfil">'
-                    carta += '</div>'
-                    carta += '<div class="d-flex my-auto">'
-                    carta += '<h5 class="card-title fw-bold fs-4 text-capitalize">' + usuario.results[0].name.first + usuario.results[0].name.last + ' · '+ raza +'</h5>'
-                    carta += '</div>'
-                    carta += '</div>'
-                    carta += '<p class="card-text fw-semibold fs-5">No hay nada como la vista de Luna corriendo y jugando en'
-                    carta += 'el'
-                    carta += 'campo. Me encanta cómo su pelaje se mezcla con la hierba y las plantas, ¡parece una'
-                    carta += 'verdadera reina de la naturaleza!</p>'
-                    carta += '</div>'
-                    carta += '<div>'
-                    carta += '<div class="ratio ratio-16x9">'
-                    carta += '<img src="' + urlImgPerro + '" class="card-img-bottom rounded-4  object-fit-cover shadow-lg"'
-                    carta += 'alt="Alaskan Malamute">'
-                    carta += '</div>'
-                    carta += '</div>'
-                    carta += '<div class="px-2 py-1">'
-                    carta += '<span class="card-title fw-lighter fs-6 text-capitalize">' + usuario.results[0].location.city + ", " + usuario.results[0].location.country + '</span>'
-                    carta += '</div>'
-                    carta += '</div>'
-                    carta += '</div>'
-                    carta += '</div>'
-                    $("#posts").html(carta);
+                    $.get("https://api.weatherapi.com/v1/current.json?key=dcf3e5f1708e48f18e472023230605&q=" + usuario.results[0].location.city, function (clima) {
+
+                        var carta = "";
+                        carta += '<div class="col">'
+                        carta += '<div  class="card text-bg-dark mb-3 rounded-4 shadow-lg border-0" style="width: 40rem;">'
+                        carta += '<div class="card-body px-4 pt-4 pb-1">'
+                        carta += '<div class="px-2 pb-4">'
+                        carta += '<div class="d-flex gap-3 pb-2">'
+                        carta += '<div>'
+                        carta += '<img src="' + usuario.results[0].picture.thumbnail + '" class="rounded-circle shadow-lg ratio ratio-1x1"'
+                        carta += 'Style="width: 3rem;" alt="Perfil">'
+                        carta += '</div>'
+                        carta += '<div class="d-flex my-auto">'
+                        carta += '<h5 class="card-title fw-bold fs-4 text-capitalize">' + usuario.results[0].name.first + " " + usuario.results[0].name.last + ' · ' + raza + '</h5>'
+                        carta += '</div>'
+                        carta += '</div>'
+                        carta += '<p class="card-text fw-semibold fs-5">No hay nada como la vista de Luna corriendo y jugando en'
+                        carta += 'el'
+                        carta += 'campo. Me encanta cómo su pelaje se mezcla con la hierba y las plantas, ¡parece una'
+                        carta += 'verdadera reina de la naturaleza!</p>'
+                        carta += '</div>'
+                        carta += '<div>'
+                        carta += '<div class="">'
+                        carta += '<img src="' + urlImgPerro + '" class="card-img-bottom rounded-4  object-fit-cover shadow-lg"'
+                        carta += 'alt="Alaskan Malamute">'
+                        carta += '</div>'
+                        carta += '</div>'
+                        carta += '<div class="px-2 py-1">'
+                        carta += '<span class="card-title fw-lighter fs-6 text-capitalize">' + usuario.results[0].location.city + ", " + usuario.results[0].location.country + " | "+ clima.current.temp_c +'°</span>'
+                        carta += '</div>'
+                        carta += '</div>'
+                        carta += '</div>'
+                        carta += '</div>'
+                        $("#posts").html(carta);
+                    });
                 });
             });
 
