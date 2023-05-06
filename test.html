@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Clasificación de imágenes con Cloud Vision API</title>
+</head>
+<body>
+  <h1>Clasificación de imágenes con Cloud Vision API</h1>
+  <form id="formulario">
+    <input type="file" id="imagen" accept="image/*" required>
+    <button type="submit">Enviar</button>
+  </form>
+  <div>
+    <h2>Vista previa de la imagen:</h2>
+    <img id="vista-previa" src="#" alt="Vista previa de la imagen" style="max-width: 400px;">
+  </div>
+
+  <script>
+    // Función para enviar la imagen a la API de Cloud Vision
+    function enviarImagen(event) {
+      event.preventDefault();
+
+      // Clave de la API de Cloud Vision
+      const apiKey = 'AIzaSyBbtYoc66qsFMM18SPy5tTygM69Ay1rqc0';
+
+      // Archivo de imagen cargado por el usuario
+      const archivoImagen = document.getElementById('imagen').files[0];
+
+      // Crear objeto FormData para enviar la imagen
+      const formData = new FormData();
+      formData.append('file', archivoImagen);
+
+      // Realizar la solicitud HTTP a la API de Cloud Vision
+      fetch(`https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`, {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Procesar la respuesta de la API de Cloud Vision
+          const etiquetas = data.responses[0].labelAnnotations;
+          etiquetas.forEach(etiqueta => {
+            console.log(etiqueta.description);
+          });
+        })
+        .catch(error => {
+          console.error('Error al clasificar la imagen:', error);
+        });
+    }
+
+    // Función para mostrar la vista previa de la imagen
+    function mostrarVistaPrevia(event) {
+      const archivoImagen = event.target.files[0];
+      const lector = new FileReader();
+
+      lector.onload = function (evento) {
+        document.getElementById('vista-previa').src = evento.target.result;
+      };
+
+      lector.readAsDataURL(archivoImagen);
+    }
+
+    // Manejador de eventos para el envío del formulario y la vista previa de la imagen
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('formulario').addEventListener('submit', enviarImagen);
+      document.getElementById('imagen').addEventListener('change', mostrarVistaPrevia);
+    });
+  </script>
+</body>
+</html>
