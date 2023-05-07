@@ -107,8 +107,13 @@ function obtenerDatosWeahterAPI(ciudad) {
 
 
 function crearCartas(cantidad) {
-    for (let i = 0; i < cantidad; i++) {
-        crearCarta();
+    for (let i = 1; i < cantidad+1; i++) {
+        console.log("carta numero: " + i);
+        try {  
+            crearCarta();
+        } catch (error) {
+            console.log("error en carta numero:" + i)
+        }
     }
 }
 
