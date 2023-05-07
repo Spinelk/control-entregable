@@ -106,6 +106,11 @@ function obtenerDatosWeahterAPI(ciudad) {
 }
 
 
+function crearCartas(cantidad) {
+    for (let i = 0; i < cantidad; i++) {
+        crearCarta();
+    }
+}
 
 
 async function crearCarta() {
