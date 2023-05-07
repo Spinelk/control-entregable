@@ -125,7 +125,7 @@ async function crearCarta() {
 
 
     var carta = "";
-    carta += '<div class="card text-bg-dark rounded-4 shadow-lg border-0 mx-auto mb-5" style="max-height: 50rem; max-width: 70%">'
+    carta += '<div class="card text-bg-dark rounded-4 shadow-lg border-0 mx-auto mb-5" style="max-height: 50rem;">'
     carta += '<div class="card-body px-4 pt-4 pb-1">'
     carta += '<div class="px-2 pb-4">'
     carta += '<div class="d-flex gap-3 pb-2">'
