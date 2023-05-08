@@ -77,7 +77,6 @@ async function generar_post() {
 
 
 
-// Gracias ChatGPT
 // No entiendo como funcionan pero estas funciones son las que realmente hacen la llamada a las APIs
 function obtener_datos_randomuserAPI() {
     return $.ajax({
