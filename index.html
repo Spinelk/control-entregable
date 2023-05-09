@@ -39,7 +39,10 @@
 
 </head>
 
-<body onload="spawn_cartas(5)" style="background-color: #272c30; height: 100%;">
+<!-- Forzar la Altura del body a 100vh arregla el problema de visualizacion de Firefox en android -->
+<!-- Sin embargo la barra de scroll ahora es siempre visible, incluso cuando no hay ninguna card -->
+
+<body onload="spawn_cartas(5)" style="background-color: #272c30; height: 100vh;">
     <header>
         <nav class="navbar text-bg-dark fixed-top" data-bs-theme="dark">
             <div class="container-fluid">
@@ -73,15 +76,15 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
 
-    <!-- <script>
+    <script>
         window.addEventListener('scroll', () => {
             const { scrollHeight, clientHeight, scrollTop } = document.documentElement;
-            // scrollTop + clientHeight > scrollHeight -4 && setTimeout(crear_carta, 100)
+            // scrollTop + clientHeight > scrollHeight -4 && setTimeout(spawn_cartas(1), 1000)
             if (scrollTop + clientHeight > scrollHeight - 4) {
                 spawn_cartas(1);
             }
         })
-    </script> -->
+    </script>
 </body>
 
 </html>

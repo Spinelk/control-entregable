@@ -48,7 +48,7 @@ async function generar_post() {
     // (temperatura)
     // 2) Es importante la API del clima sea consultada despues de Random User, se necesita una ciudad para poder consultar la temperatura
     try {
-        await obtener_datos_weatherAPI(datos_post["ciudad"])
+        await obtener_datos_weatherAPI(datos_post.ciudad)
             .done(function (response) {
                 datos_post.temperatura = response.current.temp_c;
 
@@ -60,7 +60,6 @@ async function generar_post() {
                 datos_post.temperatura = "-";
             });
     } catch {
-        console.log(datos_post.ciudad);
         throw new Error("Catch(WeatherAPI)");
     }
 
@@ -95,7 +94,7 @@ async function generar_post() {
 // No entiendo como funcionan pero estas funciones son las que realmente hacen la llamada a las APIs
 function obtener_datos_randomuserAPI() {
     return $.ajax({
-        url: `https://randomuser.me/api/?nat=us&noinfo`,
+        url: `https://randomuser.me/api/?inc=name,location,picture&noinfo`,
         method: "GET",
         dataType: "json",
     });
@@ -122,7 +121,6 @@ async function spawn_cartas(cantidad) {
             await crear_carta();
             // console.log("Carta número: " + i + " generada exitosamente");
             // console.log("--------");
-
         } catch (error) {
             if (error.message == "Error(CreandoCarta)") {
                 // console.log("error en carta numero: " + i);
@@ -137,16 +135,10 @@ async function crear_carta() {
         datos_post = await generar_post();
     } catch (error) {
         if (error.message == "Catch(RandomUserAPI)") {
-            console.log("   Error RandomUserAPI");
-
             throw new Error("Error(CreandoCarta)");
         } else if (error.message == "Catch(WeatherAPI)") {
-            console.log("   Error WeatherAPI");
-
             throw new Error("Error(CreandoCarta)");
         } else if (error.message == "Catch(WeatherAPI)") {
-            console.log(    "Error DogAPI");
-
             throw new Error("Error(CreandoCarta)");
         }
     }
@@ -182,6 +174,4 @@ async function crear_carta() {
     `;
 
     $("#posts").append(carta);
-
-    console.log(datos_post);
 }
