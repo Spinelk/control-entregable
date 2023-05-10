@@ -15,10 +15,6 @@ async function generar_post() {
         ciudad: "",
         pais: "",
         temperatura: "",
-
-        //
-        error_cors: false,
-        error_ciudad_desconocida: false,
     };
 
     // (nombre, apellido, img_perfil, ciudad, pais)
@@ -37,10 +33,7 @@ async function generar_post() {
                 // console.log("Random Userr API:")
                 // console.log(datos_post)
             })
-            .fail(function () {
-                datos_post.error_cors = true;
-                datos_post.ciudad = "santiago";
-            });
+            .fail(function () {});
     } catch {
         throw new Error("Catch(RandomUserAPI)");
     }
@@ -55,10 +48,7 @@ async function generar_post() {
                 // console.log("Weather API:");
                 // console.log(datos_post)
             })
-            .fail(function () {
-                datos_post.error_ciudad_desconocida = true;
-                datos_post.temperatura = "-";
-            });
+            .fail(function () {});
     } catch {
         throw new Error("Catch(WeatherAPI)");
     }
@@ -89,8 +79,6 @@ async function generar_post() {
     return datos_post;
 }
 
-//?inc=name,location,picture
-
 // No entiendo como funcionan pero estas funciones son las que realmente hacen la llamada a las APIs
 function obtener_datos_randomuserAPI() {
     return $.ajax({
@@ -117,13 +105,10 @@ function obtener_datos_weatherAPI(ciudad) {
 async function spawn_cartas(cantidad) {
     for (let i = 1; i < cantidad + 1; i++) {
         try {
-            // console.log("Generando carta número: " + i + "/" + cantidad);
             await crear_carta();
-            // console.log("Carta número: " + i + " generada exitosamente");
-            // console.log("--------");
         } catch (error) {
             if (error.message == "Error(CreandoCarta)") {
-                // console.log("error en carta numero: " + i);
+                // Se resta 1 al iterador (haciendo que se repita la creación de la carta) para que la cantidad total de cartas sea la esperada
                 i--;
             }
         }
@@ -143,30 +128,44 @@ async function crear_carta() {
         }
     }
 
+    // console.table(datos_post);
+
+    const {
+        img_perfil,
+        nombre,
+        apellido,
+        raza_perro,
+        descripcion,
+        img_perro,
+        ciudad,
+        pais,
+        temperatura,
+    } = datos_post;
+
     var carta = `
     <div class="card text-bg-dark rounded-4 shadow-lg border-0 mx-auto mb-5">
         <div class="card-body px-4 pt-4 pb-1">
             <div class="px-2 pb-4">
                 <div class="d-flex gap-3 pb-2">
                     <div>
-                        <img src="${datos_post.img_perfil}" class="rounded-circle shadow-lg ratio ratio-1x1" Style="width: 3rem;" alt="Perfil">
+                        <img src="${img_perfil}" class="rounded-circle shadow-lg ratio ratio-1x1" Style="width: 3rem;" alt="Perfil">
                     </div>
                     <div class="d-flex my-auto">
                         <h5 class="card-title fw-bold fs-4 text-capitalize" style="user-select: none;">
-                            ${datos_post.nombre} ${datos_post.apellido} · ${datos_post.raza_perro}
+                            ${nombre} ${apellido} · ${raza_perro}
                         </h5>
                     </div>
                 </div>
-                <p class="card-text fw-semibold fs-5">${datos_post.descripcion}</p>
+                <p class="card-text fw-semibold fs-5">${descripcion}</p>
             </div>
             <div>
                 <div>
-                    <img src="${datos_post.img_perro}" class="card-img-bottom rounded-4 shadow-lg" alt="${datos_post.raza_perro}">
+                    <img src="${img_perro}" class="card-img-bottom rounded-4 shadow-lg" alt="${raza_perro}">
                 </div>
             </div>
             <div class="px-2 py-1">
                 <span class="card-title fw-lighter fs-6 text-capitalize" style="user-select: none;">
-                    ${datos_post.ciudad}, ${datos_post.pais} | ${datos_post.temperatura}°
+                    ${ciudad}, ${pais} | ${temperatura}°
                 </span>
             </div>
         </div>
